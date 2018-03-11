@@ -14,3 +14,6 @@ def insert_blanks(s, min_chars=32, max_chars=128):
 
 def message_text(m):
     return getattr(m.media, 'caption', None) or m.message or ''
+
+def message_author(message):
+    return getattr(message.fwd_from, 'from_id', None) or message.from_id
