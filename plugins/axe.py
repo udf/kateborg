@@ -1,3 +1,4 @@
+# plugin that replies to two messages that start in "and" with "and my axe!"
 from collections import defaultdict
 import re
 
@@ -11,7 +12,7 @@ import logging
 logger = logging.getLogger("Kateborg@{}".format(__name__))
 logger.info('Initializing...')
 
-class AxeHandler:
+class State:
     RESET = -1
 
     def __init__(self):
@@ -41,12 +42,12 @@ class AxeHandler:
         if self.state == 0:
             return self.RESET
 
-STATE = defaultdict(AxeHandler)
+STATE = defaultdict(State)
 
 @client.on(events.NewMessage)
-def my_axe(event):
+def on_message(event):
     peer_id = get_peer_id(event.chat)
-    if STATE[peer_id].run(event) == AxeHandler.RESET:
+    if STATE[peer_id].run(event) == State.RESET:
         del STATE[peer_id]
 
-logger.info('Init done')
+logger.info('successfully loaded!')
