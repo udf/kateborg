@@ -19,12 +19,13 @@ class Katestore:
             self.logger.info('Creating new file')
         
     def __getitem__(self, key):
+        key = str(key)
         if key not in self.dict:
             return self.default_func()
         return self.dict[key]
 
     def __setitem__(self, key, value):
-        self.dict[key] = value
+        self.dict[str(key)] = value
         if self.autosave:
             self.save()
 
