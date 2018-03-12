@@ -6,7 +6,6 @@ from telethon import events
 from telethon.utils import get_peer_id, get_display_name
 
 from kateborg import client
-from kateutil import message_text
 
 import logging
 logger = logging.getLogger("Kateborg@{}".format(__name__))
@@ -24,7 +23,7 @@ class State:
 
     def run(self, event):
         if event.is_reply:
-            self.state = 1 if self.match(message_text(event.reply_message)) else 0
+            self.state = 1 if self.match(event.reply_message.message) else 0
             if self.state == 1:
                 self.last_author = event.reply_message.from_id
 
