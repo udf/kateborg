@@ -2,11 +2,11 @@
 import re
 
 from telethon import events
-from telethon.utils import get_peer_id, get_display_name
+from telethon.utils import get_peer_id
 
 from katestore import Katestore
 from kateborg import client, me
-from kateutil import message_author, insert_blanks
+from kateutil import message_author, insert_blanks, get_first_name
 
 import logging
 logger = logging.getLogger("Kateborg@{}".format(__name__))
@@ -34,10 +34,10 @@ def on_message(event):
     who_name = None
     if event.is_reply:
         who = message_author(event.reply_message)
-        who_name = get_display_name(client.get_entity(who))
+        who_name = get_first_name(client.get_entity(who))
     elif event.is_private:
         who_peer = event.chat if event.out else me
-        who_name = get_display_name(who_peer)
+        who_name = get_first_name(who_peer)
         who = get_peer_id(who_peer)
     if not who or who == event.message.from_id:
         return

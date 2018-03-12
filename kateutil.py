@@ -1,5 +1,6 @@
 from random import randint
 from random import choice as rchoice
+import telethon
 
 blanks = (
     '\u180e\u200b\u200c\u200d\u2060\u2061\u2062\u2063\u2064'
@@ -17,3 +18,18 @@ def message_text(m):
 
 def message_author(message):
     return getattr(message.fwd_from, 'from_id', None) or message.from_id
+
+def get_first_name(entity):
+    """
+    Like telethon.utils.get_display_name but only returns the first name
+    """
+    if isinstance(entity, telethon.tl.types.User):
+        if entity.first_name:
+            return entity.first_name
+        elif entity.last_name:
+            return entity.last_name
+
+    elif isinstance(entity, (telethon.tl.types.Chat, telethon.tl.types.Channel)):
+        return entity.title
+
+    return ''
