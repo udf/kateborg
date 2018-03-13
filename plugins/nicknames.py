@@ -11,6 +11,12 @@ from kateutil import get_first_name, get_target
 import logging
 logger = logging.getLogger("Kateborg@{}".format(__name__))
 
+
+NICK_STORE = Katestore('nicknames.json', str)
+NAME_CACHE = {}
+RE_NICK = re.compile('^!nick(.*)$')
+
+
 class CachedName:
     EXPIRY_TIME = 10 * 60
 
@@ -21,9 +27,6 @@ class CachedName:
     def is_valid(self):
         return self.name and time.time() - self.timestamp < CachedName.EXPIRY_TIME
 
-NICK_STORE = Katestore('nicknames.json', str)
-NAME_CACHE = {}
-RE_NICK = re.compile('^!nick(.*)$')
 
 def get_name(who):
     # if this entity is nicknamed, return the nickname
@@ -42,6 +45,7 @@ def get_name(who):
     NAME_CACHE[who] = CachedName(name)
 
     return name
+
 
 @client.on(events.NewMessage)
 def on_message(event):

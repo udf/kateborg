@@ -2,6 +2,7 @@ import json
 from threading import Lock
 import logging
 
+
 class Katestore:
     """A stupid kv database, just like me"""
     def __init__(self, name, default_func, autosave=True):
@@ -17,7 +18,7 @@ class Katestore:
         except FileNotFoundError:
             self.dict = {}
             self.logger.info('Creating new file')
-        
+
     def __getitem__(self, key):
         key = str(key)
         if key not in self.dict:

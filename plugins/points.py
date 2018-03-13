@@ -23,6 +23,7 @@ PATTERNS = (
     Pattern(re.compile('(?i)^bad bot$'), lambda m: -1),
 )
 
+
 @client.on(events.NewMessage)
 def on_message(event):
     if event.forward or event.message.from_id in IGNORED_USERS:

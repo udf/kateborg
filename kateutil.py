@@ -8,6 +8,7 @@ blanks = (
     '\u2068\u2069\u206a\u206b\u206c\u206d\u206e\u206f\ufeff'
 )
 
+
 def insert_blanks(s, min_chars=32, max_chars=128):
     """
     Inserts random zero width characters in the given string
@@ -18,9 +19,11 @@ def insert_blanks(s, min_chars=32, max_chars=128):
         s = s[:i] + rchoice(blanks) + s[i:]
     return s
 
+
 def message_author(message):
     """Returns the id of the original author of a message"""
     return getattr(message.fwd_from, 'from_id', None) or message.from_id
+
 
 def get_first_name(entity):
     """
@@ -36,6 +39,7 @@ def get_first_name(entity):
         return entity.title
 
     return ''
+
 
 def get_target(event):
     """Returns the id of whoever the event message was directed at (if any)"""

@@ -10,6 +10,7 @@ from kateborg import client
 import logging
 logger = logging.getLogger("Kateborg@{}".format(__name__))
 
+
 class State:
     RESET = -1
 
@@ -40,7 +41,9 @@ class State:
         if self.state == 0:
             return self.RESET
 
+
 STATE = defaultdict(State)
+
 
 @client.on(events.NewMessage)
 def on_message(event):
