@@ -17,6 +17,10 @@ ADMINS = [my_id]
 RE_ADMIN = re.compile('^([+-]\d+)$')
 RE_NORNAL = re.compile('^([+-]1)$')
 
+EXTRA_GOOD_KEYWORDS = ['correct', 'good bot']
+EXTRA_BAD_KEYWORDS = ['bad bot']
+
+
 @client.on(events.NewMessage)
 def on_message(event):
     if event.forward or event.message.from_id in IGNORED_USERS:
@@ -24,9 +28,16 @@ def on_message(event):
 
     pattern = RE_ADMIN if event.message.from_id in ADMINS else RE_NORNAL
     points = pattern.match(event.raw_text)
-    if not points:
-        return
-    points = int(points.group(1))
+    if points:
+        points = int(points.group(1))
+    else:
+        lower = event.raw_text.lower()
+        if lower in EXTRA_GOOD_KEYWORDS:
+            points = +1
+        elif lower in EXTRA_BAD_KEYWORDS:
+            points = -1
+        else:
+            return
 
     who = get_target(event)
     if not who or who == event.message.from_id:
