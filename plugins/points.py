@@ -1,5 +1,6 @@
 # global karma point system for users
 import re
+from collections import namedtuple
 
 from telethon import events
 
@@ -14,19 +15,29 @@ logger = logging.getLogger("Kateborg@{}".format(__name__))
 POINT_STORE = Katestore('points.json', int)
 IGNORED_USERS = [548127565]
 ADMINS = [my_id]
-RE_ADMIN = re.compile('^([+-]\d+)$')
-RE_NORNAL = re.compile('^([+-]1)$')
+
+Pattern = namedtuple('Pattern', ['re', 'to_int'])
+PATTERNS = (
+    Pattern(re.compile('^([+-]\d+)$'), lambda m: int(m.group(1))),
+    Pattern(re.compile('(?i)^(correct|good bot)$'), lambda m: 1),
+    Pattern(re.compile('(?i)^bad bot$'), lambda m: -1),
+)
 
 @client.on(events.NewMessage)
 def on_message(event):
     if event.forward or event.message.from_id in IGNORED_USERS:
         return
 
-    pattern = RE_ADMIN if event.message.from_id in ADMINS else RE_NORNAL
-    points = pattern.match(event.raw_text)
-    if not points:
+    points = None
+    for pattern in PATTERNS:
+        match = pattern.re.match(event.raw_text)
+        if match:
+            points = pattern.to_int(match)
+            break
+    if points is None:
         return
-    points = int(points.group(1))
+    if abs(points) > 1 and event.message.from_id not in ADMINS:
+        return
 
     who = get_target(event)
     if not who or who == event.message.from_id:
