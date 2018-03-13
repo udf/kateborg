@@ -29,6 +29,14 @@ class Katestore:
         if self.autosave:
             self.save()
 
+    def __contains__(self, key):
+        return str(key) in self.dict
+
+    def __delitem__(self, key):
+        del self.dict[str(key)]
+        if self.autosave:
+            self.save()
+
     def save(self):
         with self.write_lock:
             with open(self.name, 'w') as f:
