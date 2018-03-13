@@ -22,7 +22,7 @@ def insert_blanks(s, min_chars=32, max_chars=128):
 
 def message_author(message):
     """Returns the id of the original author of a message"""
-    return getattr(message.fwd_from, 'from_id', None) or message.from_id
+    return getattr(getattr(message, 'fwd_from', None), 'from_id', None) or message.from_id
 
 
 def get_first_name(entity):

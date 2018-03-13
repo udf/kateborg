@@ -23,7 +23,7 @@ class State:
 
     def run(self, event):
         if event.is_reply:
-            self.state = 1 if self.match(event.reply_message.message) else 0
+            self.state = 1 if self.match(getattr(event.reply_message, 'message', '')) else 0
             if self.state == 1:
                 self.last_author = event.reply_message.from_id
 
