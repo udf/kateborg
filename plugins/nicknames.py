@@ -15,9 +15,6 @@ class CachedName:
     EXPIRY_TIME = 10 * 60
 
     def __init__(self, name):
-        self.update(name)
-
-    def update(self, name):
         self.name = name
         self.timestamp = time.time()
 
