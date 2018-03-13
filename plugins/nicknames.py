@@ -66,5 +66,5 @@ def on_message(event):
         logger.info('setting nickname for {} to {}'.format(who, nickname))
         NICK_STORE[who] = nickname
     else:
-        logger.info('clearing nickname for {} ({})'.format(who))
+        logger.info('clearing nickname for {}'.format(who))
         del NICK_STORE[who]
