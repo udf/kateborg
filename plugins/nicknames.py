@@ -46,12 +46,13 @@ def get_name(who):
 
     return name
 
-@client.on(events.NewMessage(outgoing=True))
+@client.on(events.NewMessage)
 def on_message(event):
-    #cache the names of private messengers
+    # cache the names of private messengers
     if event.is_private:
+        logger.info('caching {} from pm'.format(event.chat.id))
         NAME_CACHE[event.chat.id] = CachedName(get_first_name(event.chat))
-    if event.forward:
+    if not event.out or event.forward:
         return
 
     nickname = RE_NICK.match(event.raw_text)
