@@ -9,7 +9,6 @@ from kateborg import client
 
 import logging
 logger = logging.getLogger("Kateborg@{}".format(__name__))
-logger.info('Initializing...')
 
 class State:
     RESET = -1
@@ -48,5 +47,3 @@ def on_message(event):
     peer_id = get_peer_id(event.chat)
     if STATE[peer_id].run(event) == State.RESET:
         del STATE[peer_id]
-
-logger.info('successfully loaded!')

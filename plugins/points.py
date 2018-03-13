@@ -2,19 +2,18 @@
 import re
 
 from telethon import events
-from telethon.utils import get_peer_id
 
 from katestore import Katestore
-from kateborg import client, me
-from kateutil import message_author, insert_blanks, get_first_name
+from kateborg import client, my_id
+from kateutil import get_target, insert_blanks
+from plugins.nicknames import get_name
 
 import logging
 logger = logging.getLogger("Kateborg@{}".format(__name__))
-logger.info('Initializing...')
 
 POINT_STORE = Katestore('points.json', int)
 IGNORED_USERS = [548127565]
-ADMINS = [get_peer_id(me)]
+ADMINS = [my_id]
 RE_ADMIN = re.compile('^([+-]\d+)$')
 RE_NORNAL = re.compile('^([+-]1)$')
 
@@ -29,25 +28,14 @@ def on_message(event):
         return
     points = int(points.group(1))
 
-    # figure out who we're giving points to
-    who = None
-    who_name = None
-    if event.is_reply:
-        who = message_author(event.reply_message)
-        who_name = get_first_name(client.get_entity(who))
-    elif event.is_private:
-        who_peer = event.chat if event.out else me
-        who_name = get_first_name(who_peer)
-        who = get_peer_id(who_peer)
+    who = get_target(event)
     if not who or who == event.message.from_id:
         return
-    if not who_name:
-        who_name = 'ERROR:{}'.format(who)
 
     # give points to the person
     POINT_STORE[who] += points
     message = '{} now has {} point{}'.format(
-        who_name,
+        get_name(who),
         POINT_STORE[who],
         '' if POINT_STORE[who] == 1 else 's'
     )
@@ -56,5 +44,3 @@ def on_message(event):
         '```' + insert_blanks(message) + '```',
         parse_mode='md'
     )
-
-logger.info('successfully loaded!')
