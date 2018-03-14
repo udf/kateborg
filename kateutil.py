@@ -36,9 +36,9 @@ def get_entity_cached(entity):
     # fetch if we dont have it cached
     if key not in ENTITY_CACHE or ENTITY_CACHE[key].is_expired():
         logger.info('fetching entity for {}'.format(key))
-        ENTITY_CACHE[key] = client.get_entity(entity)
+        ENTITY_CACHE[key] = CachedEntity(client.get_entity(entity))
 
-    return ENTITY_CACHE[key]
+    return ENTITY_CACHE[key].entity
 
 
 def insert_blanks(s, min_chars=32, max_chars=128):
