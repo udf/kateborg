@@ -6,7 +6,7 @@ from telethon import events
 
 from katestore import Katestore
 from kateborg import client, my_id
-from kateutil import get_target, insert_blanks
+from kateutil import get_target, insert_blanks, get_entity_cached
 from plugins.nicknames import get_name
 
 import logging
@@ -38,6 +38,8 @@ def on_message(event):
     if points is None:
         return
     if abs(points) > 1 and event.message.from_id not in ADMINS:
+        return
+    if get_entity_cached(event.message.from_id).bot:
         return
 
     who = get_target(event)
