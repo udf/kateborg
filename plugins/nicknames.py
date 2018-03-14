@@ -12,7 +12,6 @@ logger = logging.getLogger("Kateborg@{}".format(__name__))
 
 
 NICK_STORE = Katestore('nicknames.json', str)
-RE_NICK = re.compile('^!nick(.*)$')
 
 
 def get_name(who):
@@ -25,16 +24,12 @@ def get_name(who):
     return get_first_name(get_entity_cached(who))
 
 
-@client.on(events.NewMessage)
+@client.on(events.NewMessage(outgoing=True, pattern=re.compile('^!nick(.*)$')))
 def on_message(event):
-    if not event.out or event.forward:
+    if event.forward:
         return
 
-    nickname = RE_NICK.match(event.raw_text)
-    if not nickname:
-        return
-    nickname = nickname.group(1).strip()
-
+    nickname = event.pattern_match.group(1).strip()
     who = get_target(event)
     if not who:
         return
