@@ -4,7 +4,7 @@ from random import choice as rchoice
 
 import telethon
 from telethon.utils import get_peer_id
-from kateborg import client, my_id
+from __main__ import client, my_id
 
 import logging
 logger = logging.getLogger("Kateborg@utilities")

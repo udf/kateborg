@@ -5,7 +5,7 @@ from collections import namedtuple
 from telethon import events
 
 from katestore import Katestore
-from kateborg import client, my_id
+from __main__ import client, my_id
 from kateutil import get_target, insert_blanks, get_entity_cached
 from plugins.nicknames import get_name
 

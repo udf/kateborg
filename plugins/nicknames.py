@@ -3,8 +3,8 @@ import re
 
 from telethon import events
 
+from __main__ import client
 from katestore import Katestore
-from kateborg import client
 from kateutil import get_first_name, get_entity_cached, get_target
 
 import logging

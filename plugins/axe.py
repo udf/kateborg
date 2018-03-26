@@ -5,7 +5,7 @@ import re
 from telethon import events
 from telethon.utils import get_peer_id, get_display_name
 
-from kateborg import client
+from __main__ import client
 from kateutil import get_entity_cached
 
 import logging
