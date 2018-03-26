@@ -20,7 +20,7 @@ class State:
         self.last_author = 0
 
     def match(self, text):
-        return re.match('(?i)^a+nd', text)
+        return re.match(r'(?i)^a+nd\b', text)
 
     def run(self, event, peer_id):
         if event.is_reply:
