@@ -20,7 +20,7 @@ Pattern = namedtuple('Pattern', ['re', 'to_int'])
 PATTERNS = (
     Pattern(re.compile('^([+-]\d+)$'), lambda m: int(m.group(1))),
     Pattern(re.compile('(?i)^(correct|good bot)$'), lambda m: 1),
-    Pattern(re.compile('(?i)^bad bot$'), lambda m: -1),
+    Pattern(re.compile('(?i)^(incorrect|bad bot)$'), lambda m: -1),
 )
 
 
