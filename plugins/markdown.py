@@ -2,20 +2,51 @@ import logging
 import re
 
 from telethon import events, utils
-from telethon.extensions.markdown import DEFAULT_URL_RE, DEFAULT_DELIMITERS
+from telethon.extensions import markdown
 
 from __main__ import client
 
 logger = logging.getLogger(__name__)
+DEFAULT_URL_RE = markdown.DEFAULT_URL_RE
+SUBREDDIT_RE = re.compile(r'(?:^|(?<=[^/\w]))/?(r/\w+)')
 
-md_patterns = [DEFAULT_URL_RE]
-for delimiter in DEFAULT_DELIMITERS:
+
+class FakeMatch():
+    def __init__(self, match, *groups):
+        self._start = match.start()
+        self._end = match.end()
+        self.groups = groups
+
+    def start(self):
+        return self._start
+
+    def end(self):
+        return self._end
+
+    def group(self, i):
+        return self.groups[i]
+
+
+class FakeMatcher():
+    def match(self, text, pos):
+        m = DEFAULT_URL_RE.match(text, pos=pos)
+        if m:
+            return m
+        m = SUBREDDIT_RE.match(text, pos=pos)
+        if m:
+            return FakeMatch(m, '', '/' + m.group(1), 'reddit.com/' + m.group(1))
+
+
+markdown.DEFAULT_URL_RE = FakeMatcher()
+
+md_patterns = [DEFAULT_URL_RE, SUBREDDIT_RE]
+for delimiter in markdown.DEFAULT_DELIMITERS:
     md_patterns.append(
-        re.compile('{0}.+{0}'.format(re.escape(delimiter)))
+        re.compile('{0}.+?{0}'.format(re.escape(delimiter)))
     )
 
 
 @client.on(events.NewMessage(outgoing=True))
 def reparse(event):
-    if any(map(lambda p: p.search(event.raw_text), md_patterns)):
+    if any(p.search(event.raw_text) for p in md_patterns):
         event.edit(event.text, link_preview=bool(event.message.media))
