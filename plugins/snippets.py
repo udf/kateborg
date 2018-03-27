@@ -14,6 +14,7 @@ snips = Katestore('snips.json', str)
 @client.on(events.NewMessage(outgoing=True, pattern=re.compile(r'^!(\w+)$')))
 def snip(event):
     snippet = snips.get(event.pattern_match.group(1))
+    print('get', event.pattern_match.group(1), snippet)
     if snippet is not None:
         event.delete()
         client.send_message(event.input_chat, snippet, reply_to=event.message.reply_to_msg_id)
@@ -27,7 +28,7 @@ def snip_add(event):
 
     if value:
         snips[name] = value
+        event.delete()
     elif name in snips:
         del snips[name]
-
-    event.delete()
+        event.delete()
