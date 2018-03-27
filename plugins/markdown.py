@@ -10,9 +10,8 @@ logger = logging.getLogger(__name__)
 
 md_patterns = [DEFAULT_URL_RE]
 for delimiter in DEFAULT_DELIMITERS:
-    pat = '{0}.+{0}'.format(re.escape(delimiter))
     md_patterns.append(
-        re.compile(pat)
+        re.compile('{0}.+{0}'.format(re.escape(delimiter)))
     )
 
 
