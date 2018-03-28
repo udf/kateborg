@@ -39,3 +39,4 @@ def on_message(event):
     else:
         logger.info('clearing nickname for {}'.format(who))
         del NICK_STORE[who]
+    raise events.StopPropagation

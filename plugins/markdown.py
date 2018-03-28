@@ -44,3 +44,4 @@ for delimiter in markdown.DEFAULT_DELIMITERS:
 def reparse(event):
     if any(p.search(event.raw_text) for p in md_patterns):
         event.edit(event.text, link_preview=bool(event.message.media))
+        raise events.StopPropagation

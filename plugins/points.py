@@ -58,3 +58,4 @@ def on_message(event):
         '```' + insert_blanks(message) + '```',
         parse_mode='md'
     )
+    raise events.StopPropagation
