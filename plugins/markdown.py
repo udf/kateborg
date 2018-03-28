@@ -1,7 +1,7 @@
 import logging
 import re
 
-from telethon import events, utils
+from telethon import events
 from telethon.extensions import markdown
 
 from __main__ import client
