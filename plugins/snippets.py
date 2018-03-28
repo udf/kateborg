@@ -31,3 +31,8 @@ def snip_add(event):
     elif name in snips:
         del snips[name]
         event.delete()
+
+
+@client.on(events.NewMessage(outgoing=True, pattern=re.compile(r'^!snipl$')))
+def snip_list(event):
+    event.edit('\n'.join('`{}`'.format(name) for name in snips))

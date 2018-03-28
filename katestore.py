@@ -19,6 +19,9 @@ class Katestore:
             self.dict = {}
             self.logger.info('Creating new file')
 
+    def __iter__(self):
+        return iter(self.dict)
+
     def __getitem__(self, key):
         key = str(key)
         if key not in self.dict:
