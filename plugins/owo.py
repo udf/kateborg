@@ -29,7 +29,7 @@ patterns = [
     (r'(?i)(n)([aeiou])', case_matcher('{1}y{2}', 1)),
     (r'(?i)ove', case_matcher('uv')),
     (r'(?i)(?<=[^aeiou])y\b', case_matcher('ie')),
-    (r'(?i)th', case_matcher('tw')),
+    (r'(?i)th\B', case_matcher('tw')),
     (r'(?i)too', case_matcher('twoo')),
     ('!', lambda m: ' ' + random.choice(faces))
 ]
