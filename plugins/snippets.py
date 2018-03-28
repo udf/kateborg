@@ -6,7 +6,7 @@ from telethon import events, utils
 from __main__ import client
 from katestore import Katestore
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("Kateborg@{}".format(__name__))
 
 snips = Katestore('snips.json', str)
 
