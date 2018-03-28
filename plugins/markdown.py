@@ -11,28 +11,22 @@ DEFAULT_URL_RE = markdown.DEFAULT_URL_RE
 SUBREDDIT_RE = re.compile(r'(?:^|(?<=[^/\w]))/?(r/\w+)')
 
 
-class FakeMatch():
+class FakeMatch:
     def __init__(self, match, *groups):
-        self._start = match.start()
-        self._end = match.end()
+        self.start = match.start
+        self.end = match.end
         self.groups = groups
-
-    def start(self):
-        return self._start
-
-    def end(self):
-        return self._end
 
     def group(self, i):
         return self.groups[i]
 
 
-class FakeMatcher():
-    def match(self, text, pos):
-        m = DEFAULT_URL_RE.match(text, pos=pos)
+class FakeMatcher:
+    def match(self, *args, **kwargs):
+        m = DEFAULT_URL_RE.match(*args, **kwargs)
         if m:
             return m
-        m = SUBREDDIT_RE.match(text, pos=pos)
+        m = SUBREDDIT_RE.match(*args, **kwargs)
         if m:
             return FakeMatch(m, '', '/' + m.group(1), 'reddit.com/' + m.group(1))
 
