@@ -40,6 +40,7 @@ for delimiter in markdown.DEFAULT_DELIMITERS:
     )
 
 
+@client.on(events.MessageEdited(outgoing=True))
 @client.on(events.NewMessage(outgoing=True))
 def reparse(event):
     if any(p.search(event.raw_text) for p in md_patterns):
