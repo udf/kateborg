@@ -12,7 +12,7 @@ logger = logging.getLogger("Kateborg@utilities")
 
 ENTITY_CACHE = {}
 blanks = (
-    '\u180e\u200b\u200c\u200d\u2060\u2061\u2062\u2063\u2064'
+    '\u200b\u200c\u200d\u2060\u2061\u2062\u2063\u2064'
     '\u2068\u2069\u206a\u206b\u206c\u206d\u206e\u206f\ufeff'
 )
 
@@ -81,6 +81,7 @@ def get_target(event):
     elif event.is_private:
         return event.chat.id if event.out else my_id
     return None
+
 
 def is_read(entity, message, is_out=None):
     """
