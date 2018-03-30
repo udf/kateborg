@@ -89,7 +89,7 @@ def ninja(event):
             triggered.append(action)
 
     for action in triggered:
-        del read_actions[action]
+        read_actions.remove(action)
 
     if triggered:
         raise events.StopPropagation
