@@ -3,6 +3,7 @@ import sched
 import time
 import re
 import threading
+from collections import namedtuple
 
 from telethon import events
 from telethon.utils import get_peer_id
@@ -23,7 +24,8 @@ def run_sched():
 scheduler = sched.scheduler()
 scheduler_thread = threading.Thread(target=run_sched, daemon=True)
 scheduler_thread.start()
-read_actions = {}
+MessageAction = namedtuple('MessageAction', ['chat_id', 'message_id', 'action'])
+read_actions = set()
 
 
 def get_target_message(event):
@@ -38,7 +40,13 @@ def add_read_action(entity, target, action):
     if is_read(entity, target):
         action()
     else:
-        read_actions[target.id] = action
+        read_actions.add(
+            MessageAction(
+                chat_id=get_peer_id(entity),
+                message_id=target.id,
+                action=action
+            )
+        )
 
 
 @client.on(events.NewMessage(outgoing=True, pattern=re.compile(r'^!delete$')))
@@ -73,14 +81,15 @@ def add_edit(event):
 
 @client.on(events.MessageRead(inbox=False))
 def ninja(event):
+    this_id = get_peer_id(event.input_chat)
     triggered = []
-    for message_id in read_actions:
-        if event.is_read(message_id):
-            scheduler.enter(1, 1, read_actions[message_id])
-            triggered.append(message_id)
+    for action in read_actions:
+        if action.chat_id == this_id and event.is_read(action.message_id):
+            scheduler.enter(1, 1, action.action)
+            triggered.append(action)
 
-    for message_id in triggered:
-        del read_actions[message_id]
+    for action in triggered:
+        del read_actions[action]
 
     if triggered:
         raise events.StopPropagation
