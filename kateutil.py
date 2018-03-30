@@ -5,6 +5,7 @@ from random import choice as rchoice
 import telethon
 from telethon.utils import get_peer_id
 from __main__ import client, my_id
+from telethon.tl.functions.messages import GetPeerDialogsRequest
 
 import logging
 logger = logging.getLogger("Kateborg@utilities")
@@ -80,3 +81,19 @@ def get_target(event):
     elif event.is_private:
         return event.chat.id if event.out else my_id
     return None
+
+def is_read(entity, message, is_out=None):
+    """
+    Returns True if the given message (or id) has been read
+    if a id is given, is_out needs to be a bool
+    """
+    is_out = getattr(message, 'out', is_out)
+    if not isinstance(is_out, bool):
+        raise ValueError('Message was id but is_out not provided or not a bool')
+    message_id = getattr(message, 'id', message)
+    if not isinstance(message_id, int):
+        raise ValueError('Failed to extract id from message')
+
+    dialog = client(GetPeerDialogsRequest([entity])).dialogs[0]
+    max_id = dialog.read_outbox_max_id if is_out else dialog.read_inbox_max_id
+    return message_id <= max_id
