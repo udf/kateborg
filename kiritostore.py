@@ -3,10 +3,10 @@ from threading import Lock
 import logging
 
 
-class Katestore:
+class Kiritostore:
     """A stupid kv database, just like me"""
     def __init__(self, name, default_func, autosave=True):
-        self.logger = logging.getLogger("Katestore@{}".format(name))
+        self.logger = logging.getLogger("Kiritostore@{}".format(name))
         self.name = name
         self.write_lock = Lock()
         self.default_func = default_func

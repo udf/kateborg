@@ -6,7 +6,7 @@ from telethon import events
 
 from __main__ import client
 
-logger = logging.getLogger("Kateborg@{}".format(__name__))
+logger = logging.getLogger("Kiritoborg@{}".format(__name__))
 
 
 def case_matcher(dest_fmt, group=0):

@@ -8,7 +8,7 @@ from __main__ import client, my_id
 from telethon.tl.functions.messages import GetPeerDialogsRequest
 
 import logging
-logger = logging.getLogger("Kateborg@utilities")
+logger = logging.getLogger("Kiritoborg@utilities")
 
 ENTITY_CACHE = {}
 blanks = (

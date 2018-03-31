@@ -9,10 +9,10 @@ from telethon import events
 from telethon.utils import get_peer_id
 
 from __main__ import client, my_id
-from kateutil import is_read
+from asuna import is_read
 
 
-logger = logging.getLogger("Kateborg@{}".format(__name__))
+logger = logging.getLogger("Kiritoborg@{}".format(__name__))
 
 
 def run_sched():
