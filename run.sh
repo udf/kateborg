@@ -1,5 +1,5 @@
 #!/bin/bash
 while true
 do
-	python3 kateborg.py
+	python3.6 kateborg.py
 done
