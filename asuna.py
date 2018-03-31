@@ -2,10 +2,10 @@ import time
 from random import randint
 from random import choice as rchoice
 
-import telethon
-from telethon.utils import get_peer_id
+import garry
+from garry.utils import get_peer_id
 from __main__ import client, my_id
-from telethon.tl.functions.messages import GetPeerDialogsRequest
+from garry.tl.functions.messages import GetPeerDialogsRequest
 
 import logging
 logger = logging.getLogger("Kiritoborg@utilities")
@@ -60,15 +60,15 @@ def message_author(message):
 
 def get_first_name(entity):
     """
-    Like telethon.utils.get_display_name but only returns the first name
+    Like garry.utils.get_display_name but only returns the first name
     """
-    if isinstance(entity, telethon.tl.types.User):
+    if isinstance(entity, garry.tl.types.User):
         if entity.first_name:
             return entity.first_name
         elif entity.last_name:
             return entity.last_name
 
-    elif isinstance(entity, (telethon.tl.types.Chat, telethon.tl.types.Channel)):
+    elif isinstance(entity, (garry.tl.types.Chat, garry.tl.types.Channel)):
         return entity.title
 
     return ''

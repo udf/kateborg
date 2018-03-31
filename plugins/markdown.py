@@ -1,8 +1,8 @@
 import logging
 import re
 
-from telethon import events
-from telethon.extensions import markdown
+from garry import events
+from garry.extensions import markdown
 
 from __main__ import client
 

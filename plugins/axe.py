@@ -2,8 +2,8 @@
 from collections import defaultdict
 import re
 
-from telethon import events
-from telethon.utils import get_peer_id, get_display_name
+from garry import events
+from garry.utils import get_peer_id, get_display_name
 
 from __main__ import client
 from asuna import get_entity_cached

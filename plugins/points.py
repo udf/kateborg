@@ -2,7 +2,7 @@
 import re
 from collections import namedtuple
 
-from telethon import events
+from garry import events
 
 from kiritostore import Kiritostore
 from __main__ import client, my_id

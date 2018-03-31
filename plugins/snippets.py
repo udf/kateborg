@@ -1,7 +1,7 @@
 import logging
 import re
 
-from telethon import events, utils
+from garry import events, utils
 
 from __main__ import client
 from kiritostore import Kiritostore

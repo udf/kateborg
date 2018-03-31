@@ -1,7 +1,7 @@
 import logging
 from importlib import import_module
-from telethon import TelegramClient
-from telethon.utils import get_peer_id
+from garry import TelegramClient
+from garry.utils import get_peer_id
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('Kiritoborg@main')

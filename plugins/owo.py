@@ -2,7 +2,7 @@ import logging
 import re
 import random
 
-from telethon import events
+from garry import events
 
 from __main__ import client
 

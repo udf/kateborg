@@ -5,8 +5,8 @@ import re
 import threading
 from collections import namedtuple
 
-from telethon import events
-from telethon.utils import get_peer_id
+from garry import events
+from garry.utils import get_peer_id
 
 from __main__ import client, my_id
 from asuna import is_read

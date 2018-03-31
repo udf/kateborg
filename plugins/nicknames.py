@@ -1,7 +1,7 @@
 # nickname system and name caching
 import re
 
-from telethon import events
+from garry import events
 
 from __main__ import client
 from kiritostore import Kiritostore
