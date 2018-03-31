@@ -1,14 +1,14 @@
 import logging
 import re
 
-from telethon import events, utils
+from garry import events, utils
 
 from __main__ import client
-from katestore import Katestore
+from kiritostore import Kiritostore
 
-logger = logging.getLogger("Kateborg@{}".format(__name__))
+logger = logging.getLogger("Kiritoborg@{}".format(__name__))
 
-snips = Katestore('snips.json', str)
+snips = Kiritostore('snips.json', str)
 
 
 @client.on(events.NewMessage(outgoing=True, pattern=re.compile(r'^!(\w+)$')))

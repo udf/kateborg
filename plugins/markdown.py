@@ -1,12 +1,12 @@
 import logging
 import re
 
-from telethon import events
-from telethon.extensions import markdown
+from garry import events
+from garry.extensions import markdown
 
 from __main__ import client
 
-logger = logging.getLogger("Kateborg@{}".format(__name__))
+logger = logging.getLogger("Kiritoborg@{}".format(__name__))
 DEFAULT_URL_RE = markdown.DEFAULT_URL_RE
 SUBREDDIT_RE = re.compile(r'(?:^|(?<=[^/\w]))/?(r/\w+)')
 

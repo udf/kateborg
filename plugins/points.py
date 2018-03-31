@@ -2,17 +2,17 @@
 import re
 from collections import namedtuple
 
-from telethon import events
+from garry import events
 
-from katestore import Katestore
+from kiritostore import Kiritostore
 from __main__ import client, my_id
-from kateutil import get_target, insert_blanks, get_entity_cached
+from asuna import get_target, insert_blanks, get_entity_cached
 from plugins.nicknames import get_name
 
 import logging
-logger = logging.getLogger("Kateborg@{}".format(__name__))
+logger = logging.getLogger("Kiritoborg@{}".format(__name__))
 
-POINT_STORE = Katestore('points.json', int)
+POINT_STORE = Kiritostore('points.json', int)
 IGNORED_USERS = [548127565]
 ADMINS = [my_id]
 

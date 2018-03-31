@@ -2,14 +2,14 @@
 from collections import defaultdict
 import re
 
-from telethon import events
-from telethon.utils import get_peer_id, get_display_name
+from garry import events
+from garry.utils import get_peer_id, get_display_name
 
 from __main__ import client
-from kateutil import get_entity_cached
+from asuna import get_entity_cached
 
 import logging
-logger = logging.getLogger("Kateborg@{}".format(__name__))
+logger = logging.getLogger("Kiritoborg@{}".format(__name__))
 
 
 class State:

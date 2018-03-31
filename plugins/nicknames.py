@@ -1,17 +1,17 @@
 # nickname system and name caching
 import re
 
-from telethon import events
+from garry import events
 
 from __main__ import client
-from katestore import Katestore
-from kateutil import get_first_name, get_entity_cached, get_target
+from kiritostore import Kiritostore
+from asuna import get_first_name, get_entity_cached, get_target
 
 import logging
-logger = logging.getLogger("Kateborg@{}".format(__name__))
+logger = logging.getLogger("Kiritoborg@{}".format(__name__))
 
 
-NICK_STORE = Katestore('nicknames.json', str)
+NICK_STORE = Kiritostore('nicknames.json', str)
 
 
 def get_name(who):
