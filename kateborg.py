@@ -10,7 +10,7 @@ client = TelegramClient('kate', 6, 'eb06d4abfb49dc3eeb1aeb98ae0f581e', update_wo
 client.start()
 my_id = get_peer_id(client.get_me())
 
-plugins = ('axe', 'points', 'nicknames', 'snippets', 'ninja', 'markdown')
+plugins = ('axe', 'points', 'nicknames', 'snippets', 'ninja', 'awoo', 'markdown')
 
 for plugin in plugins:
     logger.info('loading plugins.{}...'.format(plugin))
