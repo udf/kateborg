@@ -41,7 +41,7 @@ markdown.DEFAULT_URL_RE = FakeMatcher()
 def reparse(event):
     message, msg_entities = client._parse_message_text(event.text, 'md')
 
-    if len(event.message.entities or []) == len(msg_entities):
+    if len(event.message.entities or []) == len(msg_entities) and event.raw_text == message:
         return
 
     request = EditMessageRequest(
