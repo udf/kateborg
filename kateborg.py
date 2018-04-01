@@ -16,4 +16,8 @@ for plugin in plugins:
     logger.info('loading plugins.{}...'.format(plugin))
     import_module('plugins.{}'.format(plugin))
 
+# !!! hack start !!!
+from hacks import patch_markdown_parse
+# !!! hack end !!!
+
 client.idle()
