@@ -4,17 +4,19 @@ import re
 from telethon import events
 from telethon.extensions import markdown
 
+from telethon.tl.functions.messages import EditMessageRequest
+
 from __main__ import client
 
 logger = logging.getLogger("Kateborg@{}".format(__name__))
 DEFAULT_URL_RE = markdown.DEFAULT_URL_RE
-SUBREDDIT_RE = re.compile(r'(?:^|(?<=[^/\w]))/?(r/\w+)')
+SUBREDDIT_RE = re.compile(r'(?:[^/\w]|^)(/?(r/\w+))')
 
 
 class FakeMatch:
-    def __init__(self, match, *groups):
-        self.start = match.start
-        self.end = match.end
+    def __init__(self, match, *groups, span_group=0):
+        self.start = lambda: match.start(span_group)
+        self.end = lambda: match.end(span_group)
         self.groups = groups
 
     def group(self, i):
@@ -28,21 +30,26 @@ class FakeMatcher:
             return m
         m = SUBREDDIT_RE.match(*args, **kwargs)
         if m:
-            return FakeMatch(m, '', '/' + m.group(1), 'reddit.com/' + m.group(1))
+            return FakeMatch(m, '', '/' + m.group(2), 'reddit.com/' + m.group(2), span_group=1)
 
 
 markdown.DEFAULT_URL_RE = FakeMatcher()
-
-md_patterns = [DEFAULT_URL_RE, SUBREDDIT_RE]
-for delimiter in markdown.DEFAULT_DELIMITERS:
-    md_patterns.append(
-        re.compile('{0}.+?{0}'.format(re.escape(delimiter)))
-    )
 
 
 @client.on(events.MessageEdited(outgoing=True))
 @client.on(events.NewMessage(outgoing=True))
 def reparse(event):
-    if any(p.search(event.raw_text) for p in md_patterns):
-        event.edit(event.text, link_preview=bool(event.message.media))
-        raise events.StopPropagation
+    message, msg_entities = client._parse_message_text(event.text, 'md')
+
+    if len(event.message.entities or []) == len(msg_entities):
+        return
+
+    request = EditMessageRequest(
+        peer=event.input_chat,
+        id=event.message.id,
+        message=message,
+        no_webpage=not bool(event.message.media),
+        entities=msg_entities
+    )
+    result = client(request)
+    raise events.StopPropagation
