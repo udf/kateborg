@@ -2,7 +2,6 @@ import re
 import random
 from random import randint
 from collections import Counter
-from itertools import accumulate
 
 from telethon import events
 
@@ -11,9 +10,8 @@ from __main__ import client
 
 def density_repeat(s):
     chars, weights = zip(*Counter(s).items())
-    weights = list(accumulate(weights))
     return ''.join(
-        random.choices(chars, cum_weights=weights, k=len(s) + randint(1, 10))
+        random.choices(chars, weights=weights, k=len(s) + randint(1, 10))
     )
 
 
